@@ -132,15 +132,6 @@ export default function SignupCard() {
       bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
-            Sign up
-          </Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            Please Enter your details
-            <ColorModeSwitcher />
-          </Text>
-        </Stack>
         <Box
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
@@ -148,6 +139,15 @@ export default function SignupCard() {
           p={8}
         >
           <Stack spacing={4}>
+            <Stack align={"center"}>
+              <Heading fontSize={"4xl"} textAlign={"center"}>
+                Sign up
+              </Heading>
+              <Text fontSize={"lg"} color={"gray.600"}>
+                Please Enter your details
+                <ColorModeSwitcher />
+              </Text>
+            </Stack>
             <FormControl id="username" isRequired>
               <FormLabel>Username</FormLabel>
               <Input
@@ -289,6 +289,7 @@ export default function SignupCard() {
             <Stack>
               <ReCAPTCHA
                 sitekey="6LcgtOIfAAAAAPKY4tPJouA-7ujrn7IHYJNvuOk6"
+                // sitekey="6Lcmd9EpAAAAAB-OWZucytCG02_mFrByM5sJDEid"
                 onChange={verifyCaptcha}
                 onExpired={resetCaptcha}
               />
