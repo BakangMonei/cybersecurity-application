@@ -39,16 +39,56 @@ export const checkIfUsernameExists = async (newUsername) => {
   return doesExist;
 };
 
+// export const signUpUser = async (userData) => {
+//   const { username, password } = userData;
+//   const passwordHash = sha256(password).toString();
+//   try {
+//     const docRef = await addDoc(collection(db, "cyber_assignment"), {
+//       username,
+//       password: passwordHash,
+//       passwordChanges: 0,
+//     });
+//     return docRef.id;
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//   }
+// };
+
+// Check if the email exists in the database
+export const checkIfEmailExists = async (newEmail) => {
+  let doesExist = false;
+  try {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+      const { email } = doc.data();
+      if (newEmail === email) {
+        doesExist = true;
+      }
+    });
+  } catch (e) {
+    console.error("Error getting documents: ", e);
+  }
+  return doesExist;
+};
+
 export const signUpUser = async (userData) => {
-  const { username, password } = userData;
+  const { email, username, password } = userData;
   const passwordHash = sha256(password).toString();
   try {
-    const docRef = await addDoc(collection(db, "cyber_assignment"), {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    await addDoc(collection(db, "users"), {
+      email,
       username,
+      uid: user.uid,
       password: passwordHash,
       passwordChanges: 0,
     });
-    return docRef.id;
+    return user.uid;
   } catch (e) {
     console.error("Error adding document: ", e);
   }

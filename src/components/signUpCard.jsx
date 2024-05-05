@@ -22,13 +22,14 @@ import {
 } from "@chakra-ui/icons";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
-import { signUpUser, checkIfUsernameExists } from "../utils/firebase.utils";
+import { signUpUser, checkIfEmailExists } from "../utils/firebase.utils";
 
 import { checkPasswordStrength } from "../utils/passwordChecker.utils";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
+  email: "",
   username: "",
   password: "",
   confirmPassword: "",
@@ -41,8 +42,7 @@ export default function SignupCard() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
   let navigate = useNavigate();
-  const { username, password, confirmPassword } = formFields;
-
+  const { email, username, password, confirmPassword } = formFields;
   let strength = {
     eightCharacter: false,
     upperCase: false,
@@ -103,13 +103,13 @@ export default function SignupCard() {
     }
 
     //check if the username exists
-    const exists = await checkIfUsernameExists(username);
+    const exists = await checkIfEmailExists(email);
 
     if (exists) {
-      alert("Username already exists");
+      alert("Email already exists");
     } else {
       try {
-        const doc = await signUpUser({ username, password });
+        const doc = await signUpUser({ email, username, password });
         if (doc) {
           navigate("/home", { replace: true });
         }
@@ -148,6 +148,18 @@ export default function SignupCard() {
                 <ColorModeSwitcher />
               </Text>
             </Stack>
+
+            <FormControl id="email" isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input
+                type="email"
+                name="email"
+                required
+                value={email}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+
             <FormControl id="username" isRequired>
               <FormLabel>Username</FormLabel>
               <Input
