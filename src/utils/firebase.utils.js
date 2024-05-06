@@ -7,8 +7,7 @@ import sha256 from "crypto-js/sha256";
 const firebaseConfig = {
   apiKey: "AIzaSyAgEuQwdK9L8Ch-DlbamBDRtk-Nq7LXHqg",
   authDomain: "cybersecurity-as-1714925604532.firebaseapp.com",
-  databaseURL:
-    "https://cybersecurity-as-1714925604532-default-rtdb.firebaseio.com",
+  databaseURL:"https://cybersecurity-as-1714925604532-default-rtdb.firebaseio.com",
   projectId: "cybersecurity-as-1714925604532",
   storageBucket: "cybersecurity-as-1714925604532.appspot.com",
   messagingSenderId: "645428823224",
