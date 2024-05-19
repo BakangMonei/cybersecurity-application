@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import SignUpCard from "./components/signUpCard";
 import Home from "./components/home.component";
+import LoginCard from "./components/LoginCard";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignUpCard />}></Route>
+          <Route path="/login" element={<LoginCard />}></Route>
           <Route path="/home" element={<Home />}></Route>
         </Routes>
       </BrowserRouter>

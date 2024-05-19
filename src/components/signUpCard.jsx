@@ -12,7 +12,11 @@ import {
   Text,
   Progress,
   useColorModeValue,
+  Grid,
+  GridItem,
+  BorderProps,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
   ViewIcon,
@@ -41,6 +45,7 @@ export default function SignupCard() {
   const [showPasswordMatch, setShowPasswordMatch] = useState(false);
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
+
   let navigate = useNavigate();
   const { email, username, password, confirmPassword } = formFields;
   let strength = {
@@ -111,7 +116,7 @@ export default function SignupCard() {
       try {
         const doc = await signUpUser({ email, username, password });
         if (doc) {
-          navigate("/home", { replace: true });
+          navigate("/login", { replace: true });
         }
       } catch (error) {
         console.log(error);
@@ -131,68 +136,119 @@ export default function SignupCard() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
-        >
+      <Grid
+        templateColumns="repeat(2, 1fr)"
+        gap={4}
+        maxW={"lg"}
+        py={12}
+        px={6}
+        border={"1px solid"}
+        borderColor={"gray.300"}
+        borderRadius={"10px"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow="md"
+      >
+        <GridItem colSpan={2}>
           <Stack spacing={4}>
             <Stack align={"center"}>
               <Heading fontSize={"4xl"} textAlign={"center"}>
-                Sign up
+                Register
               </Heading>
               <Text fontSize={"lg"} color={"gray.600"}>
                 Please Enter your details
                 <ColorModeSwitcher />
               </Text>
             </Stack>
+          </Stack>
+        </GridItem>
 
-            <FormControl id="email" isRequired>
-              <FormLabel>Email</FormLabel>
+        <GridItem>
+          <FormControl id="email" isRequired>
+            <FormLabel>Email</FormLabel>
+            <Input
+              type="email"
+              name="email"
+              required
+              placeholder="Enter email"
+              value={email}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl id="password" isRequired>
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
               <Input
-                type="email"
-                name="email"
-                required
-                value={email}
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required={true}
+                value={password}
+                placeholder="Enter password"
                 onChange={handleInputChange}
               />
-            </FormControl>
+              <InputRightElement h={"full"}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() =>
+                    setShowPassword((showPassword) => !showPassword)
+                  }
+                >
+                  {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
+        </GridItem>
 
-            <FormControl id="username" isRequired>
-              <FormLabel>Username</FormLabel>
+        <GridItem>
+          <FormControl id="username" isRequired>
+            <FormLabel>Username</FormLabel>
+            <Input
+              type="text"
+              name="username"
+              required
+              placeholder="Enter username"
+              value={username}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+
+          <FormControl id="confirmPassword" isRequired>
+            <FormLabel>Confirm Password</FormLabel>
+            <InputGroup>
               <Input
-                type="text"
-                name="username"
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
                 required
-                value={username}
+                value={confirmPassword}
+                placeholder="Confirm password"
                 onChange={handleInputChange}
               />
-            </FormControl>
+              <InputRightElement h={"full"}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() =>
+                    setShowConfirmPassword(
+                      (showConfirmPassword) => !showConfirmPassword
+                    )
+                  }
+                >
+                  {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
+        </GridItem>
 
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  required={true}
-                  value={password}
-                  onChange={handleInputChange}
-                />
-                <InputRightElement h={"full"}>
-                  <Button
-                    variant={"ghost"}
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
+        <GridItem colSpan={2}>
+          <Stack spacing={4}>
+            {showPasswordMatch ? (
+              <Text fontSize={"sm"} color={"red.600"}>
+                Passwords do not match!
+              </Text>
+            ) : (
+              ""
+            )}
+
             <Progress
               value={strength.totalPoints}
               colorScheme={
@@ -206,40 +262,7 @@ export default function SignupCard() {
               }
             />
 
-            <FormControl id="confirmPassword" isRequired>
-              <FormLabel> Confirm Password</FormLabel>
-              <InputGroup>
-                <Input
-                  type={showConfirmPassword ? "text" : "password"}
-                  name="confirmPassword"
-                  required
-                  value={confirmPassword}
-                  onChange={handleInputChange}
-                />
-                <InputRightElement h={"full"}>
-                  <Button
-                    variant={"ghost"}
-                    onClick={() =>
-                      setShowConfirmPassword(
-                        (showConfirmPassword) => !showConfirmPassword
-                      )
-                    }
-                  >
-                    {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-
-            {showPasswordMatch ? (
-              <Text fontSize={"sm"} color={"red.600"}>
-                Passwords do not match!
-              </Text>
-            ) : (
-              ""
-            )}
-
-            <Stack>
+            <Grid templateColumns="repeat(2, 1fr)" gap={2}>
               <Text fontSize={"xs"}>
                 8+ Characters{" "}
                 {strength.eightCharacter === true ? (
@@ -264,7 +287,6 @@ export default function SignupCard() {
                   <WarningIcon color="red.500" />
                 )}
               </Text>
-
               <Text fontSize={"xs"}>
                 Special Character{" "}
                 {strength.specialCharacter === true ? (
@@ -281,7 +303,7 @@ export default function SignupCard() {
                   <WarningIcon color="red.500" />
                 )}
               </Text>
-            </Stack>
+            </Grid>
 
             <Stack spacing={10} pt={2}>
               <Button
@@ -298,17 +320,20 @@ export default function SignupCard() {
               </Button>
             </Stack>
 
+            <Link to="/login" color="blue">
+              Click To Login
+            </Link>
+
             <Stack>
               <ReCAPTCHA
                 sitekey="6LcgtOIfAAAAAPKY4tPJouA-7ujrn7IHYJNvuOk6"
-                // sitekey="6Lcmd9EpAAAAAB-OWZucytCG02_mFrByM5sJDEid"
                 onChange={verifyCaptcha}
                 onExpired={resetCaptcha}
               />
             </Stack>
           </Stack>
-        </Box>
-      </Stack>
+        </GridItem>
+      </Grid>
     </Flex>
   );
 }
