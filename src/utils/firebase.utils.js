@@ -38,21 +38,6 @@ export const checkIfUsernameExists = async (newUsername) => {
   return doesExist;
 };
 
-// export const signUpUser = async (userData) => {
-//   const { username, password } = userData;
-//   const passwordHash = sha256(password).toString();
-//   try {
-//     const docRef = await addDoc(collection(db, "cyber_assignment"), {
-//       username,
-//       password: passwordHash,
-//       passwordChanges: 0,
-//     });
-//     return docRef.id;
-//   } catch (e) {
-//     console.error("Error adding document: ", e);
-//   }
-// };
-
 // Check if the email exists in the database
 export const checkIfEmailExists = async (newEmail) => {
   let doesExist = false;
