@@ -14,7 +14,6 @@ import {
   useColorModeValue,
   Grid,
   GridItem,
-  BorderProps,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -27,7 +26,6 @@ import {
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
 import { signUpUser, checkIfEmailExists } from "../utils/firebase.utils";
-
 import { checkPasswordStrength } from "../utils/passwordChecker.utils";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
@@ -78,7 +76,7 @@ export default function SignupCard() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    //check if the password satifies all the strength rules
+    //check if the password satisfies all the strength rules
     if (
       strength.eightCharacter === false ||
       strength.upperCase === false ||
@@ -116,6 +114,9 @@ export default function SignupCard() {
       try {
         const doc = await signUpUser({ email, username, password });
         if (doc) {
+          alert(
+            "Registration successful! Please check your email for verification."
+          );
           navigate("/login", { replace: true });
         }
       } catch (error) {
