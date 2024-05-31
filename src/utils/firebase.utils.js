@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs, addDoc, query, where, deleteDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAgEuQwdK9L8Ch-DlbamBDRtk-Nq7LXHqg",
@@ -59,12 +59,19 @@ export const loginUser = async (email, password) => {
     const otp = generateOTP();
     await storeOTP(user.uid, otp);
 
-    // Here you can send the OTP to the user's email using a Cloud Function
+    // Replace this with your method to send the OTP to the user's email
+    await sendOTPEmail(email, otp);
 
     return user;
   } catch (error) {
     console.error("Error logging in: ", error);
   }
+};
+
+// Define a custom function to send OTP email
+const sendOTPEmail = async (email, otp) => {
+  // Implement your email sending logic here
+  console.log(`Sending OTP ${otp} to email ${email}`);
 };
 
 export const verifyOTP = async (uid, inputOtp) => {

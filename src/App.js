@@ -12,8 +12,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignUpCard />}></Route>
+          <Route path="/signup" element={<SignUpCard />}></Route>
           <Route path="/login" element={<LoginCard />}></Route>
-          <Route path="/home" element={<Home />}></Route>
+          <Route path="/dashboard" element={<Home />}></Route>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

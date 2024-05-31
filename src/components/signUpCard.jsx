@@ -35,6 +35,7 @@ const defaultFormFields = {
   username: "",
   password: "",
   confirmPassword: "",
+  phonenumber: "",
 };
 
 export default function SignupCard() {
@@ -45,7 +46,8 @@ export default function SignupCard() {
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
 
   let navigate = useNavigate();
-  const { email, username, password, confirmPassword } = formFields;
+  const { email, username, password, confirmPassword, phonenumber } =
+    formFields;
   let strength = {
     eightCharacter: false,
     upperCase: false,
@@ -240,6 +242,19 @@ export default function SignupCard() {
           </FormControl>
         </GridItem>
 
+        <GridItem>
+          <FormControl id="phonenumber" isRequired>
+            <FormLabel>phonenumber</FormLabel>
+            <Input
+              type="text"
+              name="phoneNumber"
+              required
+              placeholder="Enter PhoneNumber"
+              value={phonenumber}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+        </GridItem>
         <GridItem colSpan={2}>
           <Stack spacing={4}>
             {showPasswordMatch ? (
