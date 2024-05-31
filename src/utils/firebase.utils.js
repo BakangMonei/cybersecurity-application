@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAgEuQwdK9L8Ch-DlbamBDRtk-Nq7LXHqg",
@@ -59,8 +59,7 @@ export const loginUser = async (email, password) => {
     const otp = generateOTP();
     await storeOTP(user.uid, otp);
 
-    // Replace this with your method to send the OTP to the user's email
-    await sendOTPEmail(email, otp);
+    await sendOTPEmail(user.email, otp);
 
     return user;
   } catch (error) {
@@ -70,8 +69,23 @@ export const loginUser = async (email, password) => {
 
 // Define a custom function to send OTP email
 const sendOTPEmail = async (email, otp) => {
-  // Implement your email sending logic here
   console.log(`Sending OTP ${otp} to email ${email}`);
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      // Send otp to the email
+      const message = 'Your OTP is ${otp}';
+      await user.sendEmailVerification(message);
+
+      console.log("OTP sent successfully");
+      // await sendEmailVerification(user);
+      
+      console.log(`Please check your email for the OTP: ${otp}`);
+      // You can notify the user to check their email for OTP in the verification email
+    }
+  } catch (e) {
+    console.error("Error sending email: ", e);
+  }
 };
 
 export const verifyOTP = async (uid, inputOtp) => {
